@@ -1,0 +1,25 @@
+{
+    "name": "time-graph-svg",
+    "version": "1.0.0",
+    "description": "time graph powered with react and d3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yavuzmester/time-graph-svg"
+    },
+    "dependencies": {
+        "react": "15.0.2",
+        "react-dom": "15.0.2",
+        "d3": "4.2.2",
+        "underscore": "1.8.3"
+    },
+    "peerDependencies": {
+        "browserify": "^13.0.0",
+        "babelify": "^7.3.0",
+        "babel-preset-react": "^6.3.13"
+    },
+    "browserify": {
+        "transform": [["babelify", {"presets": ["react"]}]]
+    },
+    "author": "Yavuz Mester",
+    "license": "MIT"
+}
