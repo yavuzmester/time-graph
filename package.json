@@ -1,6 +1,6 @@
 {
     "name": "time-graph-svg",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "time graph powered with react and d3",
     "repository": {
         "type": "git",

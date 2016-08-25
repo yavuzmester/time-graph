@@ -3,6 +3,7 @@
 const React = require("react");
 const ReactDOM = require("react-dom");
 const d3 = require("d3");
+const EventEmitter = require("events").EventEmitter;
 const _ = require("underscore");
 
 const TimeGraphSvg = React.createClass({
@@ -26,15 +27,15 @@ const TimeGraphSvg = React.createClass({
                 groupId: React.PropTypes.string.isRequired
             }).isRequired
         ).isRequired,
-        logaxis: React.PropTypes.bool.isRequired,
         groups: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 groupId: React.PropTypes.string.isRequired,
                 groupColor: React.PropTypes.string.isRequired
             }).isRequired
         ).isRequired,
+        logaxis: React.PropTypes.bool.isRequired,
         yAxisTicksEnabled: React.PropTypes.bool,
-        onBrush: React.PropTypes.func
+        brushEnabled: React.PropTypes.bool
     },
 
     xDomain: function() {
@@ -100,14 +101,8 @@ const TimeGraphSvg = React.createClass({
         return d3.line().x(d => xScale(new Date(d.isoDate))).y(d => yScale(d.value));
     },
 
-    brushEnabled: function() {
-        const {onBrush} = this.props;
-        return _.isFunction(onBrush);
-    },
-
     render: function() {
-        const {title, yAxisTitle, divWidth, divHeight, svgMargin, svgWidth, svgHeight} = this.props,
-            brushEnabled = this.brushEnabled();
+        const {title, yAxisTitle, divWidth, divHeight, svgMargin, svgWidth, svgHeight, brushEnabled} = this.props;
 
         return (
             /* Margin convention in D3: https://gist.github.com/mbostock/3019563 */
@@ -130,7 +125,7 @@ const TimeGraphSvg = React.createClass({
     },
 
     componentDidMount: function() {
-        const brushEnabled = this.brushEnabled();
+        const {brushEnabled} = this.props;
 
         this.componentDidMountOrUpdate();
 
@@ -172,17 +167,30 @@ const TimeGraphSvg = React.createClass({
     },
 
     createBrush: function() {
-        const {svgWidth, svgHeight, onBrush} = this.props;
+        const {svgWidth, svgHeight,} = this.props,
+            xScale = this.xScale();
 
         const brushNode = d3.select(ReactDOM.findDOMNode(this)).select("g.x.brush");
 
         const brush = d3.brushX();
         brush.extent([[0, 0], [svgWidth, svgHeight]]);
 
-        brush.on("end", onBrush.bind(this));
+        brush.on("end", () => {
+            if (d3.event && d3.event.sourceEvent) {
+                const newBrushSelection = d3.event.selection ?
+                    _.map(d3.event.selection, s => xScale.invert(s).toISOString()) : null;
+
+                this.emit("brush", {newBrushSelection: newBrushSelection});
+            }
+        });
 
         brushNode.call(brush).selectAll("rect").attr("y", 0).attr("height", svgHeight);
     }
 }); //end of TimeGraphSvg component def
+
+Object.assign(
+    TimeGraphSvg.prototype,
+    EventEmitter.prototype
+);
 
 module.exports = TimeGraphSvg;
