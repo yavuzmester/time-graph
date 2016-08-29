@@ -8,8 +8,8 @@ const _ = require("underscore");
 
 const TimeGraphSvg = React.createClass({
     propTypes: {
-        title: React.PropTypes.string.isRequired,
-        yAxisTitle: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string,
+        yAxisTitle: React.PropTypes.string,
         divWidth: React.PropTypes.number.isRequired,
         divHeight: React.PropTypes.number.isRequired,
         svgMargin: React.PropTypes.shape({
@@ -31,9 +31,19 @@ const TimeGraphSvg = React.createClass({
                 groupColor: React.PropTypes.string.isRequired
             }).isRequired
         ).isRequired,
-        logaxis: React.PropTypes.bool.isRequired,
+        logaxis: React.PropTypes.bool,
         yAxisTicksEnabled: React.PropTypes.bool,
         brushEnabled: React.PropTypes.bool
+    },
+
+    getDefaultProps: function(){
+        return {
+            title: "",
+            yAxisTitle: "",
+            logaxis: false,
+            yAxisTicksEnabled: false,
+            brushEnabled: false
+        };
     },
 
     svgWidth: function() {
