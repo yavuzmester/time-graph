@@ -17,7 +17,8 @@
         "babel-cli": "6.14.0",
         "babel-plugin-transform-react-jsx": "6.8.0",
         "react-addons-test-utils": "15.0.2",
-        "mocha": "~3.0.1"
+        "mocha": "~3.0.1",
+        "jsdom": "9.4.2"
     },
     "scripts": {
         "prepublish": "rm -rf build && mkdir build && babel --plugins transform-react-jsx index.jsx --out-file build/index.js",
