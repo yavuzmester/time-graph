@@ -18,8 +18,6 @@ const TimeGraphSvg = React.createClass({
             top: React.PropTypes.number.isRequired,
             bottom: React.PropTypes.number.isRequired
         }).isRequired,
-        svgWidth: React.PropTypes.number.isRequired,
-        svgHeight: React.PropTypes.number.isRequired,
         data: React.PropTypes.arrayOf(      //Caution: lineGen expects data to be in order
             React.PropTypes.shape({
                 isoDate: React.PropTypes.string.isRequired,
@@ -38,13 +36,23 @@ const TimeGraphSvg = React.createClass({
         brushEnabled: React.PropTypes.bool
     },
 
+    svgWidth: function() {
+        const {divWidth, svgMargin} = this.props;
+        return divWidth - svgMargin.left - svgMargin.right;
+    },
+
+    svgHeight: function() {
+        const {divHeight, svgMargin} = this.props;
+        return divHeight - svgMargin.top - svgMargin.bottom;
+    },
+
     xDomain: function() {
         const {data} = this.props;
         return d3.extent(data, d => new Date(d.isoDate));
     },
 
     xRange: function() {
-        const {svgWidth} = this.props;
+        const svgWidth = this.svgWidth();
         return [0, svgWidth];
     },
 
@@ -65,7 +73,7 @@ const TimeGraphSvg = React.createClass({
     },
 
     yRange: function() {
-        const {svgHeight} = this.props;
+        const svgHeight = this.svgHeight();
         return [svgHeight, 0];
     },
 
@@ -102,25 +110,28 @@ const TimeGraphSvg = React.createClass({
     },
 
     render: function() {
-        const {title, yAxisTitle, divWidth, divHeight, svgMargin, svgWidth, svgHeight, brushEnabled} = this.props;
+        const {title, yAxisTitle, divWidth, divHeight, svgMargin, brushEnabled} = this.props,
+            svgHeight = this.svgHeight();
 
         return (
             /* Margin convention in D3: https://gist.github.com/mbostock/3019563 */
-            <svg width={divWidth} height={divHeight}>
-                <g className="margin axis" transform={"translate(" + svgMargin.left + "," + svgMargin.top + ")"}>
-                    <g className="x axis" transform={"translate(0," + svgHeight + ")"}/>
-                    <g className="y axis" transform={"translate(0,0)"}/>
-                    {brushEnabled ? <g className="x brush"/> : ""}
+            <div className="time-graph">
+                <svg width={divWidth} height={divHeight}>
+                    <g className="margin axis" transform={"translate(" + svgMargin.left + "," + svgMargin.top + ")"}>
+                        <g className="x axis" transform={"translate(0," + svgHeight + ")"}/>
+                        <g className="y axis" transform={"translate(0,0)"}/>
+                        {brushEnabled ? <g className="x brush"/> : ""}
 
-                    <text x="-10" y="-10">
-                        <tspan>{title}</tspan>
-                    </text>
+                        <text x="-10" y="-10">
+                            <tspan>{title}</tspan>
+                        </text>
 
-                    <text x="5" y="5">
-                        <tspan>{yAxisTitle}</tspan>
-                    </text> :
-                </g>
-            </svg>
+                        <text x="5" y="5">
+                            <tspan>{yAxisTitle}</tspan>
+                        </text> :
+                    </g>
+                </svg>
+            </div>
         );
     },
 
@@ -167,7 +178,8 @@ const TimeGraphSvg = React.createClass({
     },
 
     createBrush: function() {
-        const {svgWidth, svgHeight,} = this.props,
+        const svgWidth = this.svgWidth(),
+            svgHeight = this.svgHeight(),
             xScale = this.xScale();
 
         const brushNode = d3.select(ReactDOM.findDOMNode(this)).select("g.x.brush");
