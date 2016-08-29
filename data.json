@@ -4271,8 +4271,8 @@
       "groupId": "view-constraint"
     }],
     "groups": [{
-      "groupId": "view-constraint",
-      "groupColor": "#40E0D0"
+      "id": "view-constraint",
+      "color": "#40E0D0"
     }],
     "logaxis": false,
     "yAxisTicksEnabled": true,
