@@ -27,8 +27,8 @@ const TimeGraphSvg = React.createClass({
         ).isRequired,
         groups: React.PropTypes.arrayOf(
             React.PropTypes.shape({
-                groupId: React.PropTypes.string.isRequired,
-                groupColor: React.PropTypes.string.isRequired
+                id: React.PropTypes.string.isRequired,
+                color: React.PropTypes.string.isRequired
             }).isRequired
         ).isRequired,
         logaxis: React.PropTypes.bool,
@@ -176,7 +176,7 @@ const TimeGraphSvg = React.createClass({
         //lines
         marginAxisNode.selectAll(".line").remove();
         _.each(_.groupBy(data, d => d.groupId), (groupData, groupId) => {
-            const color = _.find(groups, g => g.groupId === groupId).groupColor;
+            const color = _.find(groups, g => g.id === groupId).color;
 
             if (groupData.length > 2) {
                 marginAxisNode.append("path").
