@@ -1,6 +1,6 @@
 "use strict";
 
-const TimeGraphSvg = require("@yavuzmester/time-graph-svg");
+const TimeGraphSvg = require("time-graph-svg");
 const React = require("react");
 const ReactDOM = require("react-dom");
 
