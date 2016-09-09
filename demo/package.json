@@ -4,7 +4,7 @@
   "dependencies": {
     "react": "^15.0.2",
     "react-dom": "15.0.2",
-    "time-graph-svg": "file:..",
+    "@yavuzmester/time-graph-svg": "file:..",
     "browserify": "13.0.0"
   },
   "scripts": {

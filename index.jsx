@@ -45,10 +45,6 @@ const defaultProps = {
 
 const Component = EventEmitterMixin(React.Component);
 class TimeGraphSvg extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     svgWidth() {
         const {divWidth, svgMargin} = this.props;
         return divWidth - svgMargin.left - svgMargin.right;
