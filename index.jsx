@@ -1,38 +1,40 @@
 "use strict";
 
-const React = require("react");
+const {EventEmitterMixin} = require("event-emitter-mixin");
+const React = require("react"),
+    Component = EventEmitterMixin(React.Component),
+    PropTypes = React.PropTypes;
 const ReactDOM = require("react-dom");
 const d3 = require("d3");
-const {EventEmitterMixin} = require("event-emitter-mixin");
 const _ = require("underscore");
 
 const propTypes = {
-    title: React.PropTypes.string,
-    yAxisTitle: React.PropTypes.string,
-    divWidth: React.PropTypes.number.isRequired,
-    divHeight: React.PropTypes.number.isRequired,
-    svgMargin: React.PropTypes.shape({
-        left: React.PropTypes.number.isRequired,
-        right: React.PropTypes.number.isRequired,
-        top: React.PropTypes.number.isRequired,
-        bottom: React.PropTypes.number.isRequired
+    title: PropTypes.string,
+    yAxisTitle: PropTypes.string,
+    divWidth: PropTypes.number.isRequired,
+    divHeight: PropTypes.number.isRequired,
+    svgMargin: PropTypes.shape({
+        left: PropTypes.number.isRequired,
+        right: PropTypes.number.isRequired,
+        top: PropTypes.number.isRequired,
+        bottom: PropTypes.number.isRequired
     }).isRequired,
-    data: React.PropTypes.arrayOf(      //Caution: data is expected to be in order (lineGen function will not sort it.)
-        React.PropTypes.shape({
-            isoDate: React.PropTypes.string.isRequired,
-            value: React.PropTypes.number.isRequired,
-            groupId: React.PropTypes.string.isRequired
+    data: PropTypes.arrayOf(      //Caution: data is expected to be in order (lineGen function will not sort it.)
+        PropTypes.shape({
+            isoDate: PropTypes.string.isRequired,
+            value: PropTypes.number.isRequired,
+            groupId: PropTypes.string.isRequired
         }).isRequired
     ).isRequired,
-    groups: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            id: React.PropTypes.string.isRequired,
-            color: React.PropTypes.string.isRequired
+    groups: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            color: PropTypes.string.isRequired
         }).isRequired
     ).isRequired,
-    logaxis: React.PropTypes.bool,
-    yAxisTicksEnabled: React.PropTypes.bool,
-    brushEnabled: React.PropTypes.bool
+    logaxis: PropTypes.bool,
+    yAxisTicksEnabled: PropTypes.bool,
+    brushEnabled: PropTypes.bool
 };
 
 const defaultProps = {
@@ -43,7 +45,6 @@ const defaultProps = {
     brushEnabled: false
 };
 
-const Component = EventEmitterMixin(React.Component);
 class TimeGraphSvg extends Component {
     svgWidth() {
         const {divWidth, svgMargin} = this.props;
