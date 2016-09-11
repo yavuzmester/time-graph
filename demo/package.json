@@ -2,7 +2,7 @@
   "name": "demo",
   "version": "1.0.0",
   "dependencies": {
-    "react": "^15.0.2",
+    "react": "15.0.2",
     "react-dom": "15.0.2",
     "@yavuzmester/time-graph": "file:..",
     "browserify": "13.0.0"
