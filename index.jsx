@@ -45,7 +45,7 @@ const defaultProps = {
     brushEnabled: false
 };
 
-class TimeGraphSvg extends Component {
+class TimeGraph extends Component {
     svgWidth() {
         const {divWidth, svgMargin} = this.props;
         return divWidth - svgMargin.left - svgMargin.right;
@@ -208,9 +208,9 @@ class TimeGraphSvg extends Component {
 
         brushNode.call(brush).selectAll("rect").attr("y", 0).attr("height", svgHeight);
     }
-} //end of TimeGraphSvg component def
+} //end of TimeGraph component def
 
-TimeGraphSvg.propTypes = propTypes;
-TimeGraphSvg.defaultProps = defaultProps;
+TimeGraph.propTypes = propTypes;
+TimeGraph.defaultProps = defaultProps;
 
-module.exports = TimeGraphSvg;
+module.exports = TimeGraph;

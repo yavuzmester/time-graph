@@ -1,11 +1,11 @@
 {
-    "name": "@yavuzmester/time-graph-svg",
+    "name": "@yavuzmester/time-graph",
     "version": "1.0.9",
     "main": "build/index.js",
     "description": "time graph powered with react and d3",
     "repository": {
         "type": "git",
-        "url": "https://github.com/yavuzmester/time-graph-svg"
+        "url": "https://github.com/yavuzmester/time-graph"
     },
     "dependencies": {
         "react": "15.0.2",

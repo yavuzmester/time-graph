@@ -1,7 +1,7 @@
 "use strict";
 
 const React = require("react");
-const TimeGraphSvg = require("..");
+const TimeGraph = require("..");
 const ReactTestUtils = require("react-addons-test-utils");
 const {jsdom} = require("jsdom");
 const assert = require("assert");
@@ -10,11 +10,11 @@ const props = require('../data.json');
 
 createDocument();
 
-describe("<TimeGraphSvg/>", function() {
+describe("<TimeGraph/>", function() {
     it("should render", function() {
         const renderer = ReactTestUtils.createRenderer();
 
-        renderer.render(React.createElement(TimeGraphSvg, props), document.getElementById("root"));
+        renderer.render(React.createElement(TimeGraph, props), document.getElementById("root"));
         const result = renderer.getRenderOutput();
 
         assert.notStrictEqual(result, null);
