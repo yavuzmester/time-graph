@@ -176,7 +176,7 @@ class TimeGraph extends Component {
         //lines
         marginAxisNode.selectAll(".line").remove();
         _.each(_.groupBy(data, d => d.groupId), (groupData, groupId) => {
-            const color = _.find(groups, g => g.id === groupId).color;
+            const color = groups.find(g => g.id === groupId).color;
 
             if (groupData.length > 2) {
                 marginAxisNode.append("path").
@@ -200,7 +200,7 @@ class TimeGraph extends Component {
         brush.on("end", () => {
             if (d3.event && d3.event.sourceEvent) {
                 const newBrushSelection = d3.event.selection ?
-                    _.map(d3.event.selection, s => xScale.invert(s).toISOString()) : null;
+                    d3.event.selection.map(s => xScale.invert(s).toISOString()) : null;
 
                 this.emit("brush", {newBrushSelection: newBrushSelection});
             }
