@@ -1,9 +1,9 @@
 "use strict";
 
-const {EventEmitterMixin} = require("event-emitter-mixin");
+const { EventEmitterMixin } = require("event-emitter-mixin");
 const React = require("react"),
-    Component = EventEmitterMixin(React.Component),
-    PropTypes = React.PropTypes;
+      Component = EventEmitterMixin(React.Component),
+      PropTypes = React.PropTypes;
 const ReactDOM = require("react-dom");
 const d3 = require("d3");
 const _ = require("underscore");
@@ -19,19 +19,16 @@ const propTypes = {
         top: PropTypes.number.isRequired,
         bottom: PropTypes.number.isRequired
     }).isRequired,
-    data: PropTypes.arrayOf(      //Caution: data is expected to be in order (lineGen function will not sort it.)
-        PropTypes.shape({
-            isoDate: PropTypes.string.isRequired,
-            value: PropTypes.number.isRequired,
-            groupId: PropTypes.string.isRequired
-        }).isRequired
-    ).isRequired,
-    groups: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            color: PropTypes.string.isRequired
-        }).isRequired
-    ).isRequired,
+    data: PropTypes.arrayOf( //Caution: data is expected to be in order (lineGen function will not sort it.)
+    PropTypes.shape({
+        isoDate: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
+        groupId: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    groups: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired
+    }).isRequired).isRequired,
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
     brushEnabled: PropTypes.bool
@@ -47,17 +44,17 @@ const defaultProps = {
 
 class TimeGraph extends Component {
     svgWidth() {
-        const {divWidth, svgMargin} = this.props;
+        const { divWidth, svgMargin } = this.props;
         return divWidth - svgMargin.left - svgMargin.right;
     }
 
     svgHeight() {
-        const {divHeight, svgMargin} = this.props;
+        const { divHeight, svgMargin } = this.props;
         return divHeight - svgMargin.top - svgMargin.bottom;
     }
 
     xDomain() {
-        const {data} = this.props;
+        const { data } = this.props;
         return d3.extent(data, d => new Date(d.isoDate));
     }
 
@@ -77,8 +74,8 @@ class TimeGraph extends Component {
     }
 
     yDomain() {
-        const {logScale} = this.props;
-        const {data} = this.props;
+        const { logScale } = this.props;
+        const { data } = this.props;
         return [!logScale ? 0 : 1, d3.max(data, d => d.value)];
     }
 
@@ -88,27 +85,25 @@ class TimeGraph extends Component {
     }
 
     yScale() {
-        const {logScale} = this.props;
+        const { logScale } = this.props;
         const yDomain = this.yDomain();
         const yRange = this.yRange();
 
         if (!logScale) {
             return d3.scaleLinear().domain(yDomain).range(yRange);
-        }
-        else {
+        } else {
             return d3.scaleLog().domain(yDomain).range(yRange);
         }
     }
 
     yAxis() {
-        const {valueAxisTicksEnabled} = this.props;
+        const { valueAxisTicksEnabled } = this.props;
         const yScale = this.yScale();
         const yAxis = d3.axisLeft(yScale);
 
         if (valueAxisTicksEnabled) {
             return yAxis.ticks(3, ",.0s");
-        }
-        else {
+        } else {
             return yAxis.ticks(() => "");
         }
     }
@@ -120,33 +115,50 @@ class TimeGraph extends Component {
     }
 
     render() {
-        const {title, valueAxisTitle, divWidth, divHeight, svgMargin, brushEnabled} = this.props,
-            svgHeight = this.svgHeight();
+        const { title, valueAxisTitle, divWidth, divHeight, svgMargin, brushEnabled } = this.props,
+              svgHeight = this.svgHeight();
 
         return (
             /* Margin convention in D3: https://gist.github.com/mbostock/3019563 */
-            <div className="time-graph">
-                <svg width={divWidth} height={divHeight}>
-                    <g className="margin axis" transform={"translate(" + svgMargin.left + "," + svgMargin.top + ")"}>
-                        <g className="x axis" transform={"translate(0," + svgHeight + ")"}/>
-                        <g className="y axis" transform={"translate(0,0)"}/>
-                        {brushEnabled ? <g className="x brush"/> : ""}
-
-                        <text x="-10" y="-10">
-                            <tspan>{title}</tspan>
-                        </text>
-
-                        <text x="5" y="5">
-                            <tspan>{valueAxisTitle}</tspan>
-                        </text> :
-                    </g>
-                </svg>
-            </div>
+            React.createElement(
+                "div",
+                { className: "time-graph" },
+                React.createElement(
+                    "svg",
+                    { width: divWidth, height: divHeight },
+                    React.createElement(
+                        "g",
+                        { className: "margin axis", transform: "translate(" + svgMargin.left + "," + svgMargin.top + ")" },
+                        React.createElement("g", { className: "x axis", transform: "translate(0," + svgHeight + ")" }),
+                        React.createElement("g", { className: "y axis", transform: "translate(0,0)" }),
+                        brushEnabled ? React.createElement("g", { className: "x brush" }) : "",
+                        React.createElement(
+                            "text",
+                            { x: "-10", y: "-10" },
+                            React.createElement(
+                                "tspan",
+                                null,
+                                title
+                            )
+                        ),
+                        React.createElement(
+                            "text",
+                            { x: "5", y: "5" },
+                            React.createElement(
+                                "tspan",
+                                null,
+                                valueAxisTitle
+                            )
+                        ),
+                        " :"
+                    )
+                )
+            )
         );
     }
 
     componentDidMount() {
-        const {brushEnabled} = this.props;
+        const { brushEnabled } = this.props;
 
         this.componentDidMountOrUpdate();
 
@@ -160,14 +172,14 @@ class TimeGraph extends Component {
     }
 
     componentDidMountOrUpdate() {
-        const {data, groups} = this.props,
-            xAxis = this.xAxis(),
-            yAxis = this.yAxis(),
-            lineGen = this.lineGen();
+        const { data, groups } = this.props,
+              xAxis = this.xAxis(),
+              yAxis = this.yAxis(),
+              lineGen = this.lineGen();
 
         const marginAxisNode = d3.select(ReactDOM.findDOMNode(this)).select("g.margin.axis"),
-            xAxisNode = marginAxisNode.select("g.x.axis"),
-            yAxisNode = marginAxisNode.select("g.y.axis");
+              xAxisNode = marginAxisNode.select("g.x.axis"),
+              yAxisNode = marginAxisNode.select("g.y.axis");
 
         //update axes
         xAxisNode.call(xAxis);
@@ -179,18 +191,15 @@ class TimeGraph extends Component {
             const color = groups.find(g => g.id === groupId).color;
 
             if (groupData.length > 2) {
-                marginAxisNode.append("path").
-                    attr("class", "line").
-                    attr("d", lineGen(groupData)).
-                    attr("style", "stroke-width: 2px; fill: none; stroke: " + color);
+                marginAxisNode.append("path").attr("class", "line").attr("d", lineGen(groupData)).attr("style", "stroke-width: 2px; fill: none; stroke: " + color);
             }
         });
     }
 
     createBrush() {
         const svgWidth = this.svgWidth(),
-            svgHeight = this.svgHeight(),
-            xScale = this.xScale();
+              svgHeight = this.svgHeight(),
+              xScale = this.xScale();
 
         const brushNode = d3.select(ReactDOM.findDOMNode(this)).select("g.x.brush");
 
@@ -199,10 +208,9 @@ class TimeGraph extends Component {
 
         brush.on("end", () => {
             if (d3.event && d3.event.sourceEvent) {
-                const newBrushSelection = d3.event.selection ?
-                    d3.event.selection.map(s => xScale.invert(s).toISOString()) : null;
+                const newBrushSelection = d3.event.selection ? d3.event.selection.map(s => xScale.invert(s).toISOString()) : null;
 
-                this.emit("brush", {newBrushSelection: newBrushSelection});
+                this.emit("brush", { newBrushSelection: newBrushSelection });
             }
         });
 

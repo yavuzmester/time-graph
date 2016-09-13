@@ -1,6 +1,6 @@
 {
     "title": "test",
-    "yAxisTitle": "5d",
+    "valueAxisTitle": "5d",
     "divWidth": 400,
     "divHeight": 400,
     "svgMargin": {
@@ -53,7 +53,7 @@
             "color": "#40E0D0"
         }
     ],
-    "logaxis": false,
-    "yAxisTicksEnabled": true,
+    "logScale": false,
+    "valueAxisTicksEnabled": true,
     "brushEnabled": true
   }
