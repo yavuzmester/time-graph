@@ -19,18 +19,17 @@ const propTypes = {
         top: PropTypes.number.isRequired,
         bottom: PropTypes.number.isRequired
     }).isRequired,
-    data: PropTypes.arrayOf( //Caution: data is expected to be in order (lineGen function will not sort it.)
-        PropTypes.shape({
-            isoDate: PropTypes.string.isRequired,
-            value: PropTypes.number.isRequired,
-            groupId: PropTypes.string.isRequired
-        }).isRequired).isRequired,
-    groups: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            color: PropTypes.string.isRequired
-        }).isRequired
-    ).isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({
+        isoDate: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
+        groupId: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    groups: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    groupIdsToSum: PropTypes.arrayOf(PropTypes.string.isRequired),
+    groupSumColor: PropTypes.string,
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
     brushEnabled: PropTypes.bool
@@ -39,12 +38,18 @@ const propTypes = {
 const defaultProps = {
     title: "",
     valueAxisTitle: "",
+    groupIdsToSum: {},
     logScale: false,
     valueAxisTicksEnabled: false,
     brushEnabled: false
 };
 
 class TimeGraph extends Component {
+    constructor(props = {}) {
+        _.defaults(props, defaultProps);
+        super(props);
+    }
+
     svgWidth() {
         const { divWidth, svgMargin } = this.props;
         return divWidth - svgMargin.left - svgMargin.right;
@@ -55,8 +60,47 @@ class TimeGraph extends Component {
         return divHeight - svgMargin.top - svgMargin.bottom;
     }
 
+    groups() /*: array<object> */{
+        const { groups, groupSumColor } = this.props;
+
+        return groups.concat(groupSumColor ? [{
+            id: "group-sum",
+            color: groupSumColor
+        }] : []);
+    }
+
+    groupSumData(groupIdsToSum /*: array<string> */) /*: array<object> */{
+        if (groupIdsToSum.length == 0) {
+            return [];
+        } else {
+            const { data } = this.props;
+
+            const groupedData /*: object */ = _.groupBy(data, d => d.isoDate);
+
+            return _.map(groupedData, (groupData, isoDate) => {
+                return {
+                    isoDate: isoDate,
+                    value: groupData.filter(d => groupIdsToSum.indexOf(d.groupId) >= 0).reduce((memo, gd) => memo + gd.value, 0),
+                    groupId: "group-sum"
+                };
+            });
+        }
+    }
+
+    data() /*: array<object> */{
+        const { data, groupIdsToSum } = this.props;
+
+        const groupSumData = this.groupSumData(groupIdsToSum);
+
+        return this._sortData(data.concat(groupSumData));
+    }
+
+    _sortData(data /*: array<object> */) /*: array<object> */{
+        return _.sortBy(data, d => new Date(d.isoDate));
+    }
+
     xDomain() {
-        const { data } = this.props;
+        const data = this.data();
         return d3.extent(data, d => new Date(d.isoDate));
     }
 
@@ -76,8 +120,9 @@ class TimeGraph extends Component {
     }
 
     yDomain() {
-        const { logScale } = this.props;
-        const { data } = this.props;
+        const { logScale } = this.props,
+              data = this.data();
+
         return [!logScale ? 0 : 1, d3.max(data, d => d.value)];
     }
 
@@ -174,7 +219,8 @@ class TimeGraph extends Component {
     }
 
     componentDidMountOrUpdate() {
-        const { data, groups } = this.props,
+        const data = this.data(),
+              groups = this.groups(),
               xAxis = this.xAxis(),
               yAxis = this.yAxis(),
               lineGen = this.lineGen();
