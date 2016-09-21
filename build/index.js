@@ -20,15 +20,17 @@ const propTypes = {
         bottom: PropTypes.number.isRequired
     }).isRequired,
     data: PropTypes.arrayOf( //Caution: data is expected to be in order (lineGen function will not sort it.)
-    PropTypes.shape({
-        isoDate: PropTypes.string.isRequired,
-        value: PropTypes.number.isRequired,
-        groupId: PropTypes.string.isRequired
-    }).isRequired).isRequired,
-    groups: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired
-    }).isRequired).isRequired,
+        PropTypes.shape({
+            isoDate: PropTypes.string.isRequired,
+            value: PropTypes.number.isRequired,
+            groupId: PropTypes.string.isRequired
+        }).isRequired).isRequired,
+    groups: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            color: PropTypes.string.isRequired
+        }).isRequired
+    ).isRequired,
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
     brushEnabled: PropTypes.bool
