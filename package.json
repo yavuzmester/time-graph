@@ -1,6 +1,6 @@
 {
     "name": "@yavuzmester/time-graph",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "main": "build/index.js",
     "description": "time graph powered with react and d3",
     "repository": {
