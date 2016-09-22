@@ -38,7 +38,7 @@ const propTypes = {
 const defaultProps = {
     title: "",
     valueAxisTitle: "",
-    groupIdsToSum: {},
+    groupIdsToSum: [],
     logScale: false,
     valueAxisTicksEnabled: false,
     brushEnabled: false
