@@ -3,6 +3,7 @@
     "version": "2.0.3",
     "main": "build/index.js",
     "description": "time graph powered with react and d3",
+    "keywords": ["time", "graph", "d3", "react", "component"],
     "repository": {
         "type": "git",
         "url": "https://github.com/yavuzmester/time-graph"
