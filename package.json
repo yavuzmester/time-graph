@@ -1,16 +1,18 @@
 {
     "name": "@yavuzmester/time-graph",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "main": "build/index.js",
     "description": "time graph powered with react and d3",
     "repository": {
         "type": "git",
         "url": "https://github.com/yavuzmester/time-graph"
     },
-    "dependencies": {
+    "peerDependencies": {
         "react": "^15.0.2",
         "react-dom": "^15.0.2",
-        "d3": "^4.2.2",
+        "d3": "^4.2.2"
+    },
+    "dependencies": {
         "event-emitter-mixin": "^0.3.5",
         "underscore": "^1.8.3"
     },

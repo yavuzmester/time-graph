@@ -236,7 +236,7 @@ class TimeGraph extends Component {
         //lines
         marginAxisNode.selectAll(".line").remove();
         _.each(_.groupBy(data, d => d.groupId), (groupData, groupId) => {
-            const color = groups.find(g => g.id === groupId).color;
+            const color = (groups.find(g => g.id === groupId) || {}).color;
 
             if (groupData.length > 2) {
                 marginAxisNode.append("path").attr("class", "line").attr("d", lineGen(groupData)).attr("style", "stroke-width: 2px; fill: none; stroke: " + color);
