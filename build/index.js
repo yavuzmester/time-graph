@@ -28,7 +28,6 @@ const propTypes = {
         id: PropTypes.string.isRequired,
         color: PropTypes.string.isRequired
     }).isRequired).isRequired,
-    groupIdsToSum: PropTypes.arrayOf(PropTypes.string.isRequired),
     groupSumColor: PropTypes.string,
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
@@ -38,7 +37,6 @@ const propTypes = {
 const defaultProps = {
     title: "",
     valueAxisTitle: "",
-    groupIdsToSum: [],
     logScale: false,
     valueAxisTicksEnabled: false,
     brushEnabled: false
@@ -69,38 +67,8 @@ class TimeGraph extends Component {
         }] : []);
     }
 
-    groupSumData(groupIdsToSum /*: array<string> */) /*: array<object> */{
-        if (groupIdsToSum.length == 0) {
-            return [];
-        } else {
-            const { data } = this.props;
-
-            const groupedData /*: object */ = _.groupBy(data, d => d.isoDate);
-
-            return _.map(groupedData, (groupData, isoDate) => {
-                return {
-                    isoDate: isoDate,
-                    value: groupData.filter(d => groupIdsToSum.indexOf(d.groupId) >= 0).reduce((memo, gd) => memo + gd.value, 0),
-                    groupId: "group-sum"
-                };
-            });
-        }
-    }
-
-    data() /*: array<object> */{
-        const { data, groupIdsToSum } = this.props;
-
-        const groupSumData = this.groupSumData(groupIdsToSum);
-
-        return this._sortData(data.concat(groupSumData));
-    }
-
-    _sortData(data /*: array<object> */) /*: array<object> */{
-        return _.sortBy(data, d => new Date(d.isoDate));
-    }
-
     xDomain() {
-        const data = this.data();
+        const { data } = this.props;
         return d3.extent(data, d => new Date(d.isoDate));
     }
 
@@ -120,8 +88,7 @@ class TimeGraph extends Component {
     }
 
     yDomain() {
-        const { logScale } = this.props,
-              data = this.data();
+        const { data, logScale } = this.props;
 
         return [!logScale ? 0 : 1, d3.max(data, d => d.value)];
     }
@@ -219,7 +186,7 @@ class TimeGraph extends Component {
     }
 
     componentDidMountOrUpdate() {
-        const data = this.data(),
+        const { data } = this.props,
               groups = this.groups(),
               xAxis = this.xAxis(),
               yAxis = this.yAxis(),

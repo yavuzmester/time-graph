@@ -52,7 +52,6 @@
             "color": "green"
         }
     ],
-    "groupIdsToSum": ["1", "2"],
     "groupSumColor": "yellow",
     "logScale": false,
     "valueAxisTicksEnabled": true,
