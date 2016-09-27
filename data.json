@@ -14,45 +14,34 @@
             "bucketNo": 47,
             "isoDate": "2018-12-22T00:00:00.000Z",
             "value": 2,
-            "groupId": "1"
+            "color": "red"
         },
         {
             "isoDate": "2018-12-27T00:00:00.000Z",
             "value": 4,
-            "groupId": "1"
+            "color": "red"
         },
         {
             "isoDate": "2019-01-29T00:00:00.000Z",
             "value": 6,
-            "groupId": "1"
+            "color": "red"
         },
         {
             "isoDate": "2018-12-22T00:00:00.000Z",
             "value": 3,
-            "groupId": "2"
+            "color": "green"
         },
         {
             "isoDate": "2018-12-27T00:00:00.000Z",
             "value": 6,
-            "groupId": "2"
+            "color": "green"
         },
         {
             "isoDate": "2019-01-29T00:00:00.000Z",
             "value": 9,
-            "groupId": "2"
-        }
-    ],
-    "groups": [
-        {
-            "id": "1",
-            "color": "red"
-        },
-        {
-            "id": "2",
             "color": "green"
         }
     ],
-    "groupSumColor": "yellow",
     "logScale": false,
     "valueAxisTicksEnabled": true,
     "brushEnabled": true

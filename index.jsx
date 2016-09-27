@@ -23,16 +23,9 @@ const propTypes = {
         PropTypes.shape({
             isoDate: PropTypes.string.isRequired,
             value: PropTypes.number.isRequired,
-            groupId: PropTypes.string.isRequired
-        }).isRequired
-    ).isRequired,
-    groups: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
             color: PropTypes.string.isRequired
         }).isRequired
     ).isRequired,
-    groupSumColor: PropTypes.string,
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
     brushEnabled: PropTypes.bool
@@ -60,21 +53,6 @@ class TimeGraph extends Component {
     svgHeight() {
         const {divHeight, svgMargin} = this.props;
         return divHeight - svgMargin.top - svgMargin.bottom;
-    }
-
-    groups() /*: array<object> */ {
-        const {groups, groupSumColor} = this.props;
-
-        return groups.concat(
-            groupSumColor ?
-                [
-                    {
-                        id: "group-sum",
-                        color: groupSumColor
-                    }
-                ] :
-                []
-        );
     }
 
     xDomain() {
@@ -182,7 +160,6 @@ class TimeGraph extends Component {
 
     componentDidMountOrUpdate() {
         const {data} = this.props,
-            groups = this.groups(),
             xAxis = this.xAxis(),
             yAxis = this.yAxis(),
             lineGen = this.lineGen();
@@ -197,9 +174,7 @@ class TimeGraph extends Component {
 
         //lines
         marginAxisNode.selectAll(".line").remove();
-        _.each(_.groupBy(data, d => d.groupId), (groupData, groupId) => {
-            const color = (groups.find(g => g.id === groupId) || {}).color;
-
+        _.each(_.groupBy(data, d => d.color), (groupData, color) => {
             if (groupData.length > 2) {
                 marginAxisNode.append("path").
                     attr("class", "line").
