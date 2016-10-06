@@ -23,7 +23,7 @@ const propTypes = {
         isoDate: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired,
         color: PropTypes.string.isRequired
-    }).isRequired).isRequired,
+    })),
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
     brushEnabled: PropTypes.bool
@@ -32,6 +32,7 @@ const propTypes = {
 const defaultProps = {
     title: "",
     valueAxisTitle: "",
+    data: [],
     logScale: false,
     valueAxisTicksEnabled: false,
     brushEnabled: false
