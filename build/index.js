@@ -207,7 +207,7 @@ class TimeGraph extends Component {
 
         brush.on("end", () => {
             if (d3.event && d3.event.sourceEvent) {
-                const newBrushSelection = d3.event.selection ? d3.event.selection.map(s => xScale.invert(s).toISOString()) : null;
+                const newBrushSelection = d3.event.selection ? d3.event.selection.map(s => xScale.invert(s).toISOString()) : [];
 
                 this.emit("brush", { newBrushSelection: newBrushSelection });
             }
