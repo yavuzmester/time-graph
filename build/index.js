@@ -7,6 +7,7 @@ const React = require("react"),
 const ReactDOM = require("react-dom");
 const d3 = require("d3");
 const _ = require("underscore");
+const shallowEqual = require("shallowequal");
 
 const propTypes = {
     title: PropTypes.string,
@@ -214,6 +215,10 @@ class TimeGraph extends Component {
         });
 
         brushNode.call(brush).selectAll("rect").attr("y", 0).attr("height", svgHeight);
+    }
+
+    shouldComponentUpdate(nextProps /*: object */) /*: boolean */{
+        return !shallowEqual(this.props, nextProps);
     }
 } //end of TimeGraph component def
 

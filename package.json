@@ -1,6 +1,6 @@
 {
     "name": "@yavuzmester/time-graph",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "main": "build/index.js",
     "description": "time graph powered with react and d3",
     "keywords": ["time", "graph", "d3", "react", "component"],
@@ -15,7 +15,8 @@
     },
     "dependencies": {
         "event-emitter-mixin": "^0.3.5",
-        "underscore": "^1.8.3"
+        "underscore": "^1.8.3",
+        "shallowequal": "0.2.2"
     },
     "devDependencies": {
         "babel-cli": "^6.14.0",
