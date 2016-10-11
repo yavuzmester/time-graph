@@ -191,7 +191,7 @@ class TimeGraph extends Component {
         marginAxisNode.selectAll(".line").remove();
         _.each(_.groupBy(data, d => d.color), (groupData, color) => {
             if (groupData.length > 2) {
-                marginAxisNode.append("path").attr("class", "line").attr("d", lineGen(groupData)).attr("style", "stroke-width: 2px; fill: none; stroke: " + color);
+                marginAxisNode.insert("path", yAxisNode.nextElementSibling).attr("class", "line").attr("d", lineGen(groupData)).attr("style", "stroke-width: 2px; fill: none; stroke: " + color);
             }
         });
     }
