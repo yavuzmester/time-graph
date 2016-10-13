@@ -29,7 +29,10 @@ const propTypes = {
     ),
     logScale: PropTypes.bool,
     valueAxisTicksEnabled: PropTypes.bool,
-    brushEnabled: PropTypes.bool
+    brushEnabled: PropTypes.bool,
+    brushSelection: PropTypes.arrayOf(
+        PropTypes.string
+    )
 };
 
 const defaultProps = {
@@ -38,7 +41,8 @@ const defaultProps = {
     data: [],
     logScale: false,
     valueAxisTicksEnabled: false,
-    brushEnabled: false
+    brushEnabled: false,
+    brushSelection: []
 };
 
 class TimeGraph extends Component {
@@ -189,12 +193,19 @@ class TimeGraph extends Component {
     createBrush() {
         const svgWidth = this.svgWidth(),
             svgHeight = this.svgHeight(),
-            xScale = this.xScale();
+            xScale = this.xScale(),
+            {brushSelection} = this.props;
 
         const brushNode = d3.select(ReactDOM.findDOMNode(this)).select("g.x.brush");
 
         const brush = d3.brushX();
         brush.extent([[0, 0], [svgWidth, svgHeight]]);
+
+        brushNode.call(brush).selectAll("rect").attr("y", 0).attr("height", svgHeight);
+
+        if (brushSelection.length > 0) {
+            brush.move(brushNode, brushSelection.map(bs => xScale(new Date(bs))));
+        }
 
         brush.on("end", () => {
             if (d3.event && d3.event.sourceEvent) {
@@ -204,8 +215,6 @@ class TimeGraph extends Component {
                 this.emit("brush", {newBrushSelection: newBrushSelection});
             }
         });
-
-        brushNode.call(brush).selectAll("rect").attr("y", 0).attr("height", svgHeight);
     }
 
     shouldComponentUpdate(nextProps /*: object */) /*: boolean */ {

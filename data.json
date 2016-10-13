@@ -17,32 +17,46 @@
             "color": "red"
         },
         {
-            "isoDate": "2018-12-27T00:00:00.000Z",
-            "value": 4,
-            "color": "red"
-        },
-        {
-            "isoDate": "2019-01-29T00:00:00.000Z",
-            "value": 6,
-            "color": "red"
-        },
-        {
             "isoDate": "2018-12-22T00:00:00.000Z",
             "value": 3,
             "color": "green"
         },
         {
             "isoDate": "2018-12-27T00:00:00.000Z",
+            "value": 4,
+            "color": "red"
+        },
+        {
+            "isoDate": "2018-12-27T00:00:00.000Z",
             "value": 6,
             "color": "green"
         },
         {
             "isoDate": "2019-01-29T00:00:00.000Z",
+            "value": 6,
+            "color": "red"
+        },
+        {
+            "isoDate": "2019-01-29T00:00:00.000Z",
             "value": 9,
+            "color": "green"
+        },
+        {
+            "isoDate": "2019-02-11T00:00:00.000Z",
+            "value": 5,
+            "color": "red"
+        },
+        {
+            "isoDate": "2019-02-11T00:00:00.000Z",
+            "value": 7,
             "color": "green"
         }
     ],
     "logScale": false,
     "valueAxisTicksEnabled": true,
-    "brushEnabled": true
+    "brushEnabled": true,
+    "brushSelection": [
+        "2018-12-27T00:00:00.000Z",
+        "2019-01-29T00:00:00.000Z"
+    ]
   }
