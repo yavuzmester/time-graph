@@ -1,22 +1,21 @@
 {
     "name": "@yavuzmester/time-graph",
-    "version": "2.0.11",
+    "version": "2.0.12",
     "main": "build/index.js",
+    "files": ["build/index.js"],
     "description": "time graph powered with react and d3",
     "keywords": ["time", "graph", "d3", "react", "component"],
     "repository": {
         "type": "git",
         "url": "https://github.com/yavuzmester/time-graph"
     },
-    "peerDependencies": {
+    "dependencies": {
+        "d3": "^4.2.2",
+        "event-emitter-mixin": "^0.3.5",
         "react": "^15.0.2",
         "react-dom": "^15.0.2",
-        "d3": "^4.2.2"
-    },
-    "dependencies": {
-        "event-emitter-mixin": "^0.3.5",
-        "underscore": "^1.8.3",
-        "shallowequal": "0.2.2"
+        "shallowequal": "0.2.2",
+        "underscore": "^1.8.3"
     },
     "devDependencies": {
         "babel-cli": "^6.14.0",
@@ -26,7 +25,8 @@
         "jsdom": "^9.4.2"
     },
     "scripts": {
-        "prepublish": "rm -rf build && mkdir build && babel --plugins transform-react-jsx index.jsx --out-file build/index.js",
+        "prepublish-only": "rm -rf build && mkdir build && babel --plugins transform-react-jsx index.jsx --out-file build/index.js",
+        "my-publish": "npm run prepublish-only && npm publish --access=public",
         "test": "npm install && mocha"
     },
     "author": "Yavuz Mester",

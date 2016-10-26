@@ -1,14 +1,15 @@
 {
-  "name": "demo",
-  "version": "1.0.0",
-  "dependencies": {
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
-    "d3": "^4.2.2",
-    "@yavuzmester/time-graph": "file:..",
-    "browserify": "^13.0.0"
-  },
-  "scripts": {
-    "rebuild": "rm -rf build && mkdir build && browserify app.js -o build/bundle.js"
-  }
+    "name": "demo",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "browserify": "^13.0.0",
+        "d3": "^4.2.2",
+        "react": "^15.0.2",
+        "react-dom": "^15.0.2",
+        "@yavuzmester/time-graph": "file:.."
+    },
+    "scripts": {
+        "rebuild": "rm -rf build && mkdir build && browserify app.js -o build/bundle.js"
+    }
 }
