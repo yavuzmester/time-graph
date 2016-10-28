@@ -96,7 +96,7 @@ class TimeGraph extends Component {
         if (!logScale) {
             return d3.scaleLinear().domain(yDomain).range(yRange);
         } else {
-            return d3.scaleLog().domain(yDomain).range(yRange);
+            return d3.scaleLog().domain(yDomain).range(yRange).clamp(true);
         }
     }
 
@@ -115,6 +115,7 @@ class TimeGraph extends Component {
     lineGen() {
         const xScale = this.xScale();
         const yScale = this.yScale();
+
         return d3.line().x(d => xScale(new Date(d.isoDate))).y(d => yScale(d.value));
     }
 
