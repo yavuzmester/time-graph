@@ -1,6 +1,6 @@
 {
     "name": "@yavuzmester/time-graph",
-    "version": "2.0.15",
+    "version": "2.0.16",
     "main": "build/index.js",
     "files": ["build/index.js"],
     "description": "time graph powered with react and d3",
@@ -16,6 +16,12 @@
         "react-dom": "^15.0.2",
         "shallowequal": "0.2.2",
         "underscore": "^1.8.3"
+    },
+    "browserify-shim": {
+        "d3": "global:d3"
+    },
+    "browserify": {
+        "transform": ["browserify-shim"]
     },
     "devDependencies": {
         "babel-cli": "^6.14.0",
