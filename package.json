@@ -1,6 +1,6 @@
 {
     "name": "@yavuzmester/time-graph",
-    "version": "2.0.17",
+    "version": "2.0.18",
     "main": "build/index.js",
     "files": ["build/index.js"],
     "description": "time graph powered with react and d3",
@@ -18,7 +18,9 @@
         "underscore": "1.8.3"
     },
     "browserify-shim": {
-        "d3": "global:d3"
+        "d3": "global:d3",
+        "react": "global:React",
+        "react-dom": "global:ReactDOM"
     },
     "browserify": {
         "transform": ["browserify-shim"]
