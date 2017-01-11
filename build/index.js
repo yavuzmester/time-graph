@@ -106,7 +106,7 @@ class TimeGraph extends Component {
         const yAxis = d3.axisLeft(yScale);
 
         if (valueAxisTicksEnabled) {
-            return yAxis.ticks(3, ",.0s");
+            return yAxis.ticks(3, ",.1s");
         } else {
             return yAxis.ticks(() => "");
         }
