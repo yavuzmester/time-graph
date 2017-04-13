@@ -1,5 +1,5 @@
 {
-    "name": "@yavuzmester/time-graph",
+    "name": "@ttlabs/time-graph",
     "version": "2.1.0",
     "main": "build/index.js",
     "files": ["build/index.js"],

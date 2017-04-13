@@ -6,7 +6,7 @@
         "d3": "^4.2.2",
         "react": "^15.0.2",
         "react-dom": "^15.0.2",
-        "@yavuzmester/time-graph": "file:.."
+        "@ttlabs/time-graph": "file:.."
     },
     "devDependencies": {
         "browserify": "^13.0.0"
